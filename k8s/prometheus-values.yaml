@@ -1,0 +1,21 @@
+alertmanager:
+  enabled: false
+server:
+  persistentVolume:
+    enabled: true
+    size: 5Gi
+    accessModes:
+      - ReadWriteOnce
+
+
+  # Настройка сервиса для доступа по NodePort
+  service:
+    type: NodePort
+    nodePort: 30008
+
+extraScrapeConfigs: |
+  - job_name: 'sentiment-app'
+    scrape_interval: 5s
+    metrics_path: '/'
+    static_configs:
+      - targets: ['sentiment-service:8081']

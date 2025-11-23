@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sentiment-application
+  namespace: sentiment-app
+  labels:
+    app: sentiment-application
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sentiment-application
+  template:
+    metadata:
+      labels:
+        app: sentiment-application
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8081"
+        prometheus.io/path: "/"
+    spec:
+      containers:
+        - name: sentiment-app
+          image: sentiment-application:1.0
+          ports:
+            - containerPort: 8080
+              name: http
+            - containerPort: 8081
+              name: metrics
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
