@@ -70,15 +70,15 @@ java -jar target/sentiment-application-1.0.jar
 ---
 ### Вариант 2: Запуск через Docker 🐳
 
-1. Соберите Docker-образ
+1. Скачайте Docker-образ из GitHub Container Registry:
 ```
-docker build -t sentiment-analyzer:1.0.0 .
+docker pull ghcr.io/vanhellthing93/sentiment-application:1.0
 ```
-3. Запустите контейнер
+2. Запустите контейнер с пробросом портов (например, 8080 и 8081):
 ```   
-docker run -p 8080:8080 sentiment-analyzer:1.0.0
+docker run -d -p 8080:8080 -p 8081:8081 ghcr.io/vanhellthing93/sentiment-application:1.0
 ```
-4. Приложение будет доступно на `http://localhost:8080`.
+3. Приложение будет доступно на `http://localhost:8080`. Promtheus на `http://localhost:8081`
 
 ---
 

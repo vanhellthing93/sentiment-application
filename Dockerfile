@@ -7,20 +7,21 @@ COPY src ./src
 
 RUN mvn clean package -DskipTests
 
-# Создание кастомного Java runtime
+# Установить binutils с objcopy (для jlink)
+RUN apk add --no-cache binutils
+
 RUN $JAVA_HOME/bin/jlink \
     --output /custom-runtime \
-    --add-modules java.base,java.logging,java.net.http \
+    --add-modules java.base,java.logging,java.net.http,java.management,jdk.httpserver \
     --strip-debug \
     --compress=2 \
     --no-header-files \
     --no-man-pages
 
 # Stage 2: минимальный образ scratch с кастомным runtime
-FROM scratch
-WORKDIR /app
+FROM alpine:3.17
 
 COPY --from=builder /custom-runtime /custom-runtime
 COPY --from=builder /app/target/*.jar ./app.jar
 
-ENTRYPOINT ["/custom-runtime/bin/java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["/custom-runtime/bin/java", "-jar", "app.jar"]
