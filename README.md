@@ -52,8 +52,8 @@ sentiment-application/
 1. Клонируйте репозиторий
 
 ```
-git clone https://github.com/vanhellthing93/sentimentApplication.git
-cd sentimentApplication
+git clone https://github.com/vanhellthing93/sentiment-application.git
+cd sentiment-application
 ```
 
 ---
